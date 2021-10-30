@@ -21,8 +21,8 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
-  private int runs = 0;
-  private double speed = .3;
+  int runs = 0;
+  double targetSpeed = .3;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -82,23 +82,20 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     runs = 0;
-    speed = .3;
+    targetSpeed = .3;
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if(runs < 141) { 
-      m_drivetrain.arcadeDrive(speed, 0);
-    } else { 
-      m_drivetrain.arcadeDrive(0, 0); 
-    }
-    runs = runs + 1;
     if(runs < 70) {
-      speed = speed + .01;
+      m_drivetrain.arcadeDrive(targetSpeed,0);
     } else {
-      speed = speed - .01;
+      m_drivetrain.arcadeDrive(0,0);
     }
+
+    runs = runs + 1;
+    targetSpeed = targetSpeed + .01;
   }
 
   /** This function is called once when the robot is disabled. */
